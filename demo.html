@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>debounce&&throttle</title>
+  </head>
+  <body>
+    <div>防抖：<input type="text" name="" id="debounce" /></div>
+    <div><button type="button" name="" id="throttle" >节流</button>
+  </body>
+  <script>
+    /*
+      防抖
+      在事件被触发n秒后，再去执行回调函数。如果n秒内该事件被重新触发，则重新计时。结果就是将频繁触发的事件合并为一次，且在最后执行。
+    */
+    document
+      .querySelector('#debounce')
+      .addEventListener('keyup', debounce(saydebounce, 2000))
+    function debounce(fn, delay) {
+      let timer = null
+      return function() {
+        clearTimeout(timer)
+        timer = setTimeout(function() {
+          fn()
+        }, delay)
+      }
+    }
+    function saydebounce() {
+      console.log('防抖')
+    }
+
+    /*
+      节流
+      规定一个时间n，n秒内，将触发的事件合并为一次并执行。
+    */
+    document
+      .querySelector('#throttle')
+      .addEventListener('click', throttle(saythrottle, 1000))
+    function throttle(fn, delay) {
+      let timer = null
+      return function() {
+        if(timer) return
+        timer = setTimeout(function() {
+          clearTimeout(timer)
+          timer=null
+          fn()
+        }, delay)
+      }
+    }
+    function saythrottle() {
+      console.log('节流')
+    }
+  </script>
+</html>
